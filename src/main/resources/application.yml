@@ -1,0 +1,16 @@
+# application.yml
+server:
+  port: 8080
+
+spring:
+  application:
+    name: mock-server
+
+logging:
+  level:
+    com.example.mockserver: INFO
+
+mock:
+  config:
+    file: mock-config.json  # Path to JSON configuration file
+    watch: true             # Enable hot-reload when file changes

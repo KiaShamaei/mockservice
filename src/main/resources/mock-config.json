@@ -1,0 +1,1292 @@
+{
+  "endpoints": [
+    {
+      "path": "/api/users",
+      "method": "GET",
+      "response": {
+        "status": 200,
+        "body": [
+          {
+            "id": 1,
+            "name": "kia shamaei",
+            "email": "kia@example.com"
+          },
+          {
+            "id": 2,
+            "name": "hamid Yousefi",
+            "email": "hamid@example.com"
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Total-Count": "2"
+        }
+      }
+    },
+    {
+      "path": "/api/users/{id}",
+      "method": "GET",
+      "response": {
+        "status": 200,
+        "body": {
+          "id": 1,
+          "name": "John Doe",
+          "email": "john@example.com",
+          "created": "2024-01-01T10:00:00Z"
+        }
+      }
+    },
+    {
+      "path": "/api/users",
+      "method": "POST",
+      "delay": 500,
+      "conditionalResponses": [
+        {
+          "condition": {
+            "body": {
+              "email": "existing@example.com"
+            }
+          },
+          "response": {
+            "status": 409,
+            "body": {
+              "error": "Email already exists"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "name": ""
+            }
+          },
+          "response": {
+            "status": 400,
+            "body": {
+              "error": "Name is required"
+            }
+          }
+        }
+      ],
+      "response": {
+        "status": 201,
+        "body": {
+          "id": 3,
+          "message": "User created successfully"
+        },
+        "headers": {
+          "Location": "/api/users/3"
+        }
+      }
+    },
+    {
+      "path": "/api/users/{id}",
+      "method": "DELETE",
+      "response": {
+        "status": 204,
+        "body": null
+      }
+    },
+    {
+      "path": "/api/products",
+      "method": "GET",
+      "randomDelay": true,
+      "minDelay": 100,
+      "maxDelay": 500,
+      "conditionalResponses": [
+        {
+          "condition": {
+            "params": {
+              "category": "electronics"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": [
+              {
+                "id": 1,
+                "name": "Laptop",
+                "category": "electronics",
+                "price": 999.99
+              },
+              {
+                "id": 2,
+                "name": "Phone",
+                "category": "electronics",
+                "price": 699.99
+              }
+            ]
+          }
+        }
+      ],
+      "response": {
+        "status": 200,
+        "body": [
+          {
+            "id": 1,
+            "name": "All Products",
+            "price": 100
+          }
+        ]
+      }
+    },
+    {
+      "path": "/api/auth/login",
+      "method": "POST",
+      "conditionalResponses": [
+        {
+          "condition": {
+            "body": {
+              "username": "admin",
+              "password": "admin123"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+              "user": {
+                "id": 1,
+                "username": "admin",
+                "role": "ADMIN"
+              }
+            }
+          }
+        }
+      ],
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "Invalid credentials"
+        }
+      }
+    },
+    {
+      "path": "/api/health",
+      "method": "GET",
+      "response": {
+        "status": 200,
+        "body": {
+          "status": "UP",
+          "timestamp": "2024-01-01T10:00:00Z"
+        }
+      }
+    },
+    {
+      "path": "/mock-admin/info",
+      "method": "GET",
+      "response": {
+        "status": 200,
+        "body": {
+          "name": "Mock Server",
+          "version": "1.0.0",
+          "description": "Spring Boot Mock Server with JSON Configuration",
+          "features": [
+            "Dynamic endpoint configuration",
+            "JSON-based configuration",
+            "Hot reload support",
+            "Conditional responses",
+            "Path parameters",
+            "Query parameter matching",
+            "Header matching",
+            "Request body matching",
+            "Configurable delays",
+            "Random delays"
+          ],
+          "adminEndpoints": {
+            "/mock-admin/info": "GET - Server information",
+            "/mock-admin/endpoints": "GET - List all configured endpoints",
+            "/mock-admin/endpoints/count": "GET - Get endpoint count",
+            "/mock-admin/reload": "POST - Reload configuration",
+            "/mock-admin/config": "GET - Get current configuration",
+            "/mock-admin/config": "POST - Update configuration",
+            "/mock-admin/health": "GET - Health check",
+            "/mock-admin/stats": "GET - Request statistics"
+          }
+        }
+      }
+    },
+    {
+      "path": "/mock-admin/endpoints",
+      "method": "GET",
+      "response": {
+        "status": 200,
+        "body": "DYNAMIC_ENDPOINT_LIST"
+      }
+    },
+    {
+      "path": "/mock-admin/endpoints/count",
+      "method": "GET",
+      "response": {
+        "status": 200,
+        "body": "DYNAMIC_ENDPOINT_COUNT"
+      }
+    },
+    {
+      "path": "/mock-admin/reload",
+      "method": "POST",
+      "response": {
+        "status": 200,
+        "body": "DYNAMIC_RELOAD"
+      }
+    },
+    {
+      "path": "/mock-admin/endpoints/{path}",
+      "method": "GET",
+      "response": {
+        "status": 200,
+        "body": "DYNAMIC_ENDPOINT_DETAIL"
+      }
+    },
+    {
+      "path": "/mock-admin/endpoints",
+      "method": "POST",
+      "response": {
+        "status": 201,
+        "body": "DYNAMIC_ADD_ENDPOINT"
+      }
+    },
+    {
+      "path": "/mock-admin/endpoints/{path}",
+      "method": "DELETE",
+      "response": {
+        "status": 200,
+        "body": "DYNAMIC_DELETE_ENDPOINT"
+      }
+    },
+    {
+      "path": "/mock-admin/endpoints/{path}",
+      "method": "PUT",
+      "response": {
+        "status": 200,
+        "body": "DYNAMIC_UPDATE_ENDPOINT"
+      }
+    },
+    {
+      "path": "/mock-admin/reset",
+      "method": "POST",
+      "response": {
+        "status": 200,
+        "body": {
+          "message": "Configuration reset to defaults",
+          "timestamp": "DYNAMIC_TIMESTAMP"
+        }
+      }
+    },
+    {
+      "path": "/mock-admin/export",
+      "method": "GET",
+      "response": {
+        "status": 200,
+        "body": "DYNAMIC_EXPORT"
+      }
+    },
+    {
+      "path": "/mock-admin/import",
+      "method": "POST",
+      "response": {
+        "status": 200,
+        "body": "DYNAMIC_IMPORT"
+      }
+    },
+    {
+      "path": "/mock-admin/logs",
+      "method": "GET",
+      "conditionalResponses": [
+        {
+          "condition": {
+            "params": {
+              "level": "ERROR"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "level": "ERROR",
+              "logs": []
+            }
+          }
+        }
+      ],
+      "response": {
+        "status": 200,
+        "body": {
+          "level": "INFO",
+          "logs": "DYNAMIC_LOGS"
+        }
+      }
+    },
+    {
+      "path": "/mock-admin/clear-stats",
+      "method": "POST",
+      "response": {
+        "status": 200,
+        "body": {
+          "message": "Statistics cleared successfully",
+          "timestamp": "DYNAMIC_TIMESTAMP"
+        }
+      }
+    },
+    {
+      "path": "/api/v1/account/status",
+      "method": "POST",
+      "description": "Account status check endpoint",
+      "conditionalResponses": [
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "9087908660"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "9087908660",
+              "type": "account number",
+              "statusCode": 100,
+              "status": "حساب غیر فعال",
+              "message": "حساب غیر فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "1814084932"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "1814084932",
+              "type": "account number",
+              "statusCode": 600,
+              "status": "حساب غیر فعال",
+              "message": "حساب غیر فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "8389518309"
+            }
+          },
+          "response": {
+            "status": 404,
+            "body": {
+              "accountNumber": "8389518309",
+              "type": "account number",
+              "errorCode": "0002-0001",
+              "status": "عدم وجود شماره حساب",
+              "message": "این کاربر در بلو حساب ندارد"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "6487193240"
+            }
+          },
+          "response": {
+            "status": 408,
+            "delay": 30000,
+            "body": {
+              "accountNumber": "6487193240",
+              "status": "عدم در دسترس بودن سرویس استعلام",
+              "error": "Request Timeout"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "9054947772"
+            }
+          },
+          "response": {
+            "status": 500,
+            "body": {
+              "accountNumber": "9054947772",
+              "status": "عدم در دسترس بودن سرویس استعلام",
+              "error": "Internal Server Error"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "6540319665"
+            }
+          },
+          "response": {
+            "status": 503,
+            "body": {
+              "accountNumber": "6540319665",
+              "status": "عدم در دسترس بودن سرویس استعلام",
+              "error": "Service Unavailable"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "4484723972"
+            }
+          },
+          "response": {
+            "status": 404,
+            "body": {
+              "accountNumber": "4484723972",
+              "status": "عدم در دسترس بودن سرویس استعلام",
+              "error": "Not Found"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "3678119344"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "3678119344",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "4085158708"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "4085158708",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "1208418424"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "1208418424",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "5832028694"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "5832028694",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "4257354828"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "4257354828",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "5033823434"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "5033823434",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "5816156934"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "5816156934",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "9110275614"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "9110275614",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "5195457931"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "5195457931",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "9450956936"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "9450956936",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "8664647992"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "8664647992",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "4487619874"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "4487619874",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "7819253754"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "7819253754",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "9533216018"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "9533216018",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "1049902351"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "1049902351",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "9111752440"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "9111752440",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "4814616309"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "4814616309",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "2240075971"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "2240075971",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "3007421731"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "3007421731",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "2769278797"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "2769278797",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "4152996331"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "4152996331",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "8175465999"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "8175465999",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "7430021468"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "7430021468",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "7746361846"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "accountNumber": "7746361846",
+              "type": "account number",
+              "statusCode": 300,
+              "status": "حساب فعال",
+              "message": "حساب فعال"
+            }
+          }
+        }
+      ],
+      "response": {
+        "status": 400,
+        "body": {
+          "error": "Invalid account number",
+          "message": "شماره حساب نامعتبر است"
+        }
+      }
+    },
+    {
+      "path": "/api/v1/deposit",
+      "method": "POST",
+      "description": "Deposit/Transfer endpoint with various validation and error scenarios",
+      "conditionalResponses": [
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "1111"
+            }
+          },
+          "response": {
+            "status": 400,
+            "body": {
+              "errorCode": "0003-0001",
+              "message": "فرمت شماره حساب صحیح نمیباشد",
+              "description": "شماره حساب غیر ولید",
+              "accountNumber": "1111",
+              "amount": 100000000
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "amount": 10000000.10
+            }
+          },
+          "response": {
+            "status": 400,
+            "body": {
+              "errorCode": "0003-0002",
+              "message": "مبلغ ورودی صحیح نمیباشد",
+              "description": "مبلغ غیر ولید",
+              "amount": 10000000.10
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "requestId": "11111111"
+            }
+          },
+          "response": {
+            "status": 409,
+            "body": {
+              "errorCode": "0003-0003",
+              "message": "ریکوئست ایدی تکراری",
+              "description": "ریکويست ایدی تکراری",
+              "requestId": "11111111",
+              "amount": 100000000
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "9876543210"
+            }
+          },
+          "response": {
+            "status": 403,
+            "body": {
+              "errorCode": "0003-0004",
+              "message": "امکان واریز به این حساب وجود ندارد",
+              "description": "شماره حساب مسدود",
+              "accountNumber": "9876543210",
+              "amount": 100000000
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "1234567890"
+            }
+          },
+          "response": {
+            "status": 408,
+            "delay": 30000,
+            "body": {
+              "error": "Request Timeout",
+              "message": "عدم در دسترس بودن سرویس استعلام",
+              "accountNumber": "1234567890",
+              "amount": 100000000
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "1234567891"
+            }
+          },
+          "response": {
+            "status": 500,
+            "body": {
+              "error": "Internal Server Error",
+              "message": "عدم در دسترس بودن سرویس استعلام",
+              "accountNumber": "1234567891",
+              "amount": 100000000
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "1234567892"
+            }
+          },
+          "response": {
+            "status": 503,
+            "body": {
+              "error": "Service Unavailable",
+              "message": "عدم در دسترس بودن سرویس استعلام",
+              "accountNumber": "1234567892",
+              "amount": 100000000
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "accountNumber": "1234567893"
+            }
+          },
+          "response": {
+            "status": 404,
+            "body": {
+              "error": "Not Found",
+              "message": "عدم در دسترس بودن سرویس استعلام",
+              "accountNumber": "1234567893",
+              "amount": 100000000
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "amount": 10000000
+            }
+          },
+          "response": {
+            "status": 402,
+            "body": {
+              "errorCode": "0003-0005",
+              "message": "منابع کافی برای واریز وام وجود ندارد",
+              "description": "منابع کافی برای واریز وام وجود ندارد",
+              "amount": 10000000
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "requestId": "22222222"
+            }
+          },
+          "response": {
+            "status": 500,
+            "body": {
+              "error": "Internal Server Error",
+              "message": "سه بار تلاش بی نتیجه روی این درخواست",
+              "requestId": "22222222",
+              "amount": 10000000
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "requestId": "33333333"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "success": true,
+              "message": "واریز موفق",
+              "description": "بعد از دو بار تلاش ناموفق در تلاش سوم واریز با موفقیت انجام میشود",
+              "requestId": "33333333",
+              "referenceNumber": "REF-33333333-001",
+              "amount": 100000000
+            }
+          }
+        }
+      ],
+      "response": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "message": "واریز موفق",
+          "referenceNumber": "REF-${uuid}",
+          "timestamp": "${timestamp}",
+          "amount": 100000000
+        }
+      }
+    },
+    {
+      "path": "/api/v1/deposit/status/{requestId}",
+      "method": "GET",
+      "description": "Check deposit (advice same core)  status by request ID",
+      "response": {
+        "status": 200,
+        "body": {
+          "requestId": "${pathParam.requestId}",
+          "status": "COMPLETED",
+          "referenceNumber": "REF-${pathParam.requestId}-001",
+          "amount": 100000000,
+          "timestamp": "${timestamp}"
+        }
+      }
+    },
+    {
+      "path": "/api/v1/credit-score",
+      "method": "POST",
+      "description": "Credit score inquiry based on national code",
+      "conditionalResponses": [
+        {
+          "condition": {
+            "body": {
+              "nationalCode": "1111111115"
+            }
+          },
+          "response": {
+            "status": 400,
+            "body": {
+              "errorCode": "0004-0001",
+              "message": "کد ملی معتبر نمیباشد",
+              "description": "کد ملی نامعتبر",
+              "nationalCode": "1111111115"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "nationalCode": "0000000001"
+            }
+          },
+          "response": {
+            "status": 408,
+            "delay": 30000,
+            "body": {
+              "error": "Request Timeout",
+              "message": "عدم در دسترس بودن سرویس استعلام",
+              "nationalCode": "0000000001"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "nationalCode": "0000000002"
+            }
+          },
+          "response": {
+            "status": 500,
+            "body": {
+              "error": "Internal Server Error",
+              "message": "عدم در دسترس بودن سرویس استعلام",
+              "nationalCode": "0000000002"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "nationalCode": "0000000003"
+            }
+          },
+          "response": {
+            "status": 503,
+            "body": {
+              "error": "Service Unavailable",
+              "message": "عدم در دسترس بودن سرویس استعلام",
+              "nationalCode": "0000000003"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "nationalCode": "0000000004"
+            }
+          },
+          "response": {
+            "status": 404,
+            "body": {
+              "error": "Not Found",
+              "message": "عدم در دسترس بودن سرویس استعلام",
+              "nationalCode": "0000000004"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "nationalCode": "0012345671"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "success": true,
+              "nationalCode": "0012345671",
+              "score": 710,
+              "message": "استعلام موفق",
+              "timestamp": "${timestamp}"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "nationalCode": "0012345672"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "success": true,
+              "nationalCode": "0012345672",
+              "score": 740,
+              "message": "استعلام موفق",
+              "timestamp": "${timestamp}"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "nationalCode": "0012345673"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "success": true,
+              "nationalCode": "0012345673",
+              "score": 800,
+              "message": "استعلام موفق",
+              "timestamp": "${timestamp}"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "nationalCode": "0012345674"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "success": true,
+              "nationalCode": "0012345674",
+              "score": 820,
+              "message": "استعلام موفق",
+              "timestamp": "${timestamp}"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "nationalCode": "0012345675"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "success": true,
+              "nationalCode": "0012345675",
+              "score": 840,
+              "message": "استعلام موفق",
+              "timestamp": "${timestamp}"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "nationalCode": "0012345676"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "success": true,
+              "nationalCode": "0012345676",
+              "score": 850,
+              "message": "استعلام موفق",
+              "timestamp": "${timestamp}"
+            }
+          }
+        },
+        {
+          "condition": {
+            "body": {
+              "nationalCode": "0012345677"
+            }
+          },
+          "response": {
+            "status": 200,
+            "body": {
+              "success": true,
+              "nationalCode": "0012345677",
+              "score": 860,
+              "message": "استعلام موفق",
+              "timestamp": "${timestamp}"
+            }
+          }
+        }
+      ],
+      "response": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "score": 750,
+          "message": "استعلام موفق",
+          "description": "Default credit score for valid national codes",
+          "timestamp": "${timestamp}"
+        }
+      }
+    }
+  ]
+}
